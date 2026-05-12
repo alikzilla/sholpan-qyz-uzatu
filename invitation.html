@@ -11818,5 +11818,31 @@
       <div class="playbgmusic music-center">♪</div>
       <div class="stopbgmusic music-center">⏸</div>
     </div>
+  <script>
+    function fixCoverImages() {
+      var targets = [
+        { wrap: '#rec886638898 .tn-elem[data-elem-id="1710512662572"]' },
+        { wrap: '#rec886638928 .tn-elem[data-elem-id="1698641477923"]' }
+      ];
+      targets.forEach(function(t) {
+        var el = document.querySelector(t.wrap);
+        if (!el) return;
+        ['left','top'].forEach(function(p){ el.style.setProperty(p,'0','important'); });
+        ['width','height'].forEach(function(p){ el.style.setProperty(p,'100%','important'); });
+        var atom = el.querySelector('.tn-atom');
+        if (atom) atom.style.setProperty('height','100%','important');
+        var img = el.querySelector('img');
+        if (img) {
+          img.style.setProperty('width','100%','important');
+          img.style.setProperty('height','100%','important');
+          img.style.setProperty('object-fit','cover','important');
+          img.style.setProperty('object-position','center 20%','important');
+        }
+      });
+    }
+    window.addEventListener('load', fixCoverImages);
+    setTimeout(fixCoverImages, 300);
+    setTimeout(fixCoverImages, 1000);
+  </script>
   </body>
 </html>
