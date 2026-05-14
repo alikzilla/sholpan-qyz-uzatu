@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Шолпан - Қыз ұзату той</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: "Kazshrift";
+      src: url("https://static.tildacdn.com/tild3737-3337-4962-b064-303238333833/_AsylbekM02Shelleykz.woff2") format("woff2-variations"),
+           url("https://static.tildacdn.com/tild3436-6532-4637-b331-303937303234/AsylbekM02Shelleykz_.woff") format("woff-variations");
+      font-weight: 100 900;
+      font-style: normal;
+    }
+
+    :root {
+      --gold: #9f8e75;
+      --dark: #454242;
+      --green: #1c3404;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #fff; }
+    img { max-width: 100%; display: block; }
+    a { color: var(--gold); text-decoration: none; }
+
+    /* ── HERO ─────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+    }
+    #hero .hero-img {
+      width: 100%;
+      min-height: 100svh;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+    }
+    /* Overlays the image at the bottom */
+    #hero .hero-bottom {
+      position: absolute;
+      bottom: 0; left: 0; width: 100%;
+      background: rgba(255, 255, 255, 0.68);
+      padding: 18px 0 22px;
+      text-align: center;
+      pointer-events: none;
+    }
+    #hero .initials { width: 200px; margin: 0 auto 8px; }
+    #hero .hero-date {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    /* ── INVITE ───────────────────────────── */
+    #invite {
+      padding: 50px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Ornaments centered on left/right edges — only half peeks in */
+    #invite .orn-bg {
+      position: absolute;
+      width: 298px;
+      height: 298px;
+      opacity: 0.1;
+      pointer-events: none;
+      animation: spin 15s linear infinite;
+    }
+    #invite .orn-bg.left  { top: 60px;  left: -149px; }
+    #invite .orn-bg.right { bottom: 40px; right: -149px; }
+    #invite h1 {
+      font-family: "Kazshrift", Arial, sans-serif;
+      font-size: 36px;
+      color: var(--gold);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    #invite .orn-sm { width: 155px; margin: 0 auto 20px; }
+    #invite .invite-body {
+      max-width: 340px;
+      margin: 0 auto;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: var(--green);
+      line-height: 1.2;
+    }
+    #invite .invite-kaz {
+      font-family: "Kazshrift", Arial, sans-serif;
+      font-size: 36px;
+      color: var(--gold);
+      line-height: 1.1;
+      margin: 6px 0;
+    }
+
+    /* ── DATE ─────────────────────────────── */
+    #date {
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .calendar {
+      display: inline-block;
+      font-family: Georgia, serif;
+      text-align: center;
+      padding: 20px 10px 10px;
+    }
+    .cal-month {
+      font-size: 13px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+    .cal-dayrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .cal-dayrow .rule { flex: 1; height: 1px; background: var(--dark); max-width: 50px; }
+    .cal-dayrow .dow  { font-size: 11px; letter-spacing: 2px; color: var(--dark); font-weight: bold; white-space: nowrap; }
+    .cal-dayrow .day  { font-size: 64px; color: var(--gold); font-weight: bold; line-height: 1; margin: 0 4px; }
+    .cal-dayrow .year { font-size: 11px; letter-spacing: 2px; color: var(--dark); font-weight: bold; white-space: nowrap; }
+    .cal-time {
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--dark);
+      font-weight: bold;
+      margin-bottom: 22px;
+    }
+    .cal-table-wrap { position: relative; display: inline-block; }
+    .cal-table {
+      border-collapse: collapse;
+      font-size: 15px;
+      color: var(--dark);
+      line-height: 1;
+    }
+    .cal-table th, .cal-table td { width: 38px; padding: 5px 0; text-align: center; font-weight: normal; }
+    .cal-table td.today { font-weight: bold; color: var(--gold); }
+    /* Heart SVG is scaled down by ~25% with CSS */
+    .cal-heart-svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 266px;
+      height: 168px;
+      pointer-events: none;
+      overflow: visible;
+      transform: scale(0.75);
+      transform-origin: 171px 124px;
+    }
+    .cal-calendar-link {
+      display: block;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    /* ── LOCATION ─────────────────────────── */
+    #location {
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #location .orn-bg {
+      position: absolute;
+      width: 298px;
+      opacity: 0.1;
+      pointer-events: none;
+      animation: spin 15s linear infinite;
+      top: 173px; left: calc(50% - 149px);
+    }
+    /* Horizontal ornament — same size as orn-sm */
+    #location .orn-horiz {
+      width: 155px;
+      height: auto;
+      margin: 0 auto 16px;
+    }
+    #location h2 {
+      font-family: "Kazshrift", Arial, sans-serif;
+      font-size: 50px;
+      color: var(--gold);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    #location .address {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      color: var(--dark);
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    #location .address a { color: var(--gold); }
+
+    /* ── SCHEDULE ─────────────────────────── */
+    #schedule {
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #schedule .orn-bg {
+      position: absolute;
+      width: 298px;
+      opacity: 0.1;
+      pointer-events: none;
+      animation: spin 15s linear infinite;
+      bottom: 60px; left: -149px;
+    }
+    #schedule h2 {
+      font-family: "Kazshrift", Arial, sans-serif;
+      font-size: 41px;
+      color: var(--gold);
+      line-height: 1.2;
+      margin-bottom: 28px;
+    }
+    /* Staggered chess layout — items alternate left / right */
+    .schedule-grid {
+      display: flex;
+      flex-direction: column;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .schedule-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 50%;
+      margin-bottom: 32px;
+    }
+    .schedule-item:nth-child(odd)  { align-self: flex-start; }
+    .schedule-item:nth-child(even) { align-self: flex-end; }
+    .schedule-icon {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .schedule-time {
+      font-family: Georgia, serif;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .schedule-desc {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    /* ── RSVP ─────────────────────────────── */
+    #rsvp {
+      padding: 40px 24px;
+      text-align: center;
+    }
+    #rsvp h2 {
+      font-family: "Kazshrift", Arial, sans-serif;
+      font-size: 41px;
+      color: var(--gold);
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+    #rsvp form {
+      max-width: 320px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    #rsvp input[type="text"] {
+      display: block;
+      width: 100%;
+      height: 50px;
+      border: 1px solid var(--dark);
+      border-radius: 20px;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      padding: 0 16px;
+      color: var(--dark);
+      background: #fff;
+      margin-bottom: 20px;
+      outline: none;
+    }
+    #rsvp input[type="text"]::placeholder { color: var(--dark); opacity: 0.5; }
+    .radio-group { margin-bottom: 20px; }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: var(--dark);
+      cursor: pointer;
+    }
+    .radio-group input[type="radio"] { accent-color: var(--gold); width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* Quantity — fixed-width centered row, not full width */
+    .qty-group { margin-bottom: 20px; }
+    .qty-label { display: block; font-family: Georgia, serif; font-size: 16px; color: var(--dark); margin-bottom: 10px; }
+    .qty-row {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    .qty-btn {
+      width: 44px;
+      height: 50px;
+      border: 1px solid var(--dark);
+      background: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--dark);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .qty-btn.minus { border-radius: 20px 0 0 20px; border-right: none; }
+    .qty-btn.plus  { border-radius: 0 20px 20px 0; border-left: none; }
+    /* Input is 1.5× wider than buttons: 44 × 1.5 = 66px */
+    .qty-num {
+      width: 66px;
+      height: 50px;
+      border: 1px solid var(--dark);
+      border-left: none; border-right: none;
+      font-family: Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--dark);
+      background: #fff;
+      outline: none;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .qty-num::-webkit-inner-spin-button,
+    .qty-num::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    .submit-wrap { text-align: center; margin: 20px 0 16px; }
+    .btn-submit {
+      display: inline-block;
+      width: 200px;
+      height: 50px;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      font-family: Georgia, serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      line-height: 50px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #8a7963; }
+    .rsvp-note {
+      font-family: Georgia, serif;
+      font-size: 16px;
+      color: var(--dark);
+      text-align: center;
+      padding-top: 4px;
+    }
+    #rsvp-success {
+      text-align: center;
+      padding: 30px 20px;
+      font-family: "Kazshrift", Arial;
+      font-size: 20px;
+      color: var(--gold);
+    }
+
+    /* ── PARENTS ──────────────────────────── */
+    #parents {
+      padding: 50px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Single ornament file used for both top (normal) and bottom (flipped) */
+    #parents .orn-top {
+      width: 155px;
+      height: auto;
+      margin: -10px auto 20px;
+    }
+    #parents h2 {
+      font-family: "Kazshrift", Arial, sans-serif;
+      font-size: 42px;
+      color: var(--gold);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    #parents .parent-name {
+      font-family: Georgia, serif;
+      font-size: 26px;
+      color: var(--dark);
+      text-transform: uppercase;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    #parents .parent-joy {
+      font-family: "Kazshrift", Arial, sans-serif;
+      font-size: 35px;
+      color: var(--gold);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    #parents .orn-bottom {
+      width: 155px;
+      height: auto;
+      margin: 0 auto;
+      transform: rotate(180deg);
+    }
+
+    /* ── COUNTDOWN ────────────────────────── */
+    #countdown {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    #countdown .bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      z-index: 0;
+    }
+    #countdown .inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      /* Extra bottom padding so the fixed music button (80px + 24px gap) can't overlap */
+      padding: 0 24px 120px;
+    }
+    #countdown .cd-label {
+      font-family: Georgia, serif;
+      font-size: 19px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+      /* Warm gold-tinted shadow instead of hard black */
+      text-shadow: 0 1px 8px rgba(80, 50, 10, 0.8), 0 0 20px rgba(0,0,0,0.4);
+      margin-bottom: 16px;
+    }
+    #cd-timer {
+      display: inline-flex;
+      gap: 10px;
+      align-items: flex-start;
+      /* Warm semi-transparent backdrop */
+      background: rgba(30, 15, 5, 0.42);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 14px;
+      padding: 12px 18px;
+      border: 1px solid rgba(159, 142, 117, 0.25);
+    }
+    .cd-unit { display: flex; flex-direction: column; align-items: center; }
+    .cd-num {
+      font-family: "Comfortaa", sans-serif;
+      font-size: 31px;
+      color: #fff;
+      min-width: 60px;
+      text-align: center;
+      text-shadow: 0 1px 6px rgba(80, 50, 10, 0.6);
+    }
+    .cd-unit-label {
+      font-family: "Comfortaa", sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.9);
+      margin-top: 4px;
+      text-shadow: 0 1px 4px rgba(80, 50, 10, 0.5);
+    }
+    .cd-sep {
+      font-family: "Comfortaa", sans-serif;
+      font-size: 31px;
+      line-height: 60px;
+      color: rgba(255,255,255,0.7);
+      text-shadow: 0 1px 4px rgba(80, 50, 10, 0.5);
+    }
+
+    /* ── FIXED MUSIC BUTTON ───────────────── */
+    #music-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99999;
+      width: 80px;
+      height: 80px;
+    }
+    #music-btn .ring {
+      position: absolute;
+      top: 0; left: 0;
+      animation: spin 9s linear infinite;
+      pointer-events: none;
+    }
+    #music-btn .center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 46px;
+      height: 46px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.28);
+      cursor: pointer;
+      text-align: center;
+      line-height: 46px;
+      font-size: 24px;
+      color: #fff;
+      user-select: none;
+    }
+
+    /* ── SHARED BUTTON ────────────────────── */
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      width: 200px;
+      height: 55px;
+      line-height: 55px;
+      font-family: Georgia, serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #8a7963; }
+
+    /* ── ANIMATIONS ───────────────────────── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.18); }
+    }
+    #heart-path {
+      transform-origin: 171px 124px;
+      animation: heartPulse 1.4s ease-in-out infinite;
+    }
+
+    /* ── RSVP SPINNER ─────────────────────── */
+    @keyframes rsvp-spin { to { transform: rotate(360deg); } }
+    .rsvp-spinner {
+      display: inline-block;
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: rsvp-spin 0.7s linear infinite;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <img class="hero-img" src="sholpan-hero-1.png" alt="Шолпан">
+  <!-- Overlays the bottom of the hero image -->
+  <div class="hero-bottom">
+    <img class="initials" src="sholpanInitials.png" alt="">
+    <div class="hero-date">24 · 07 · 2026</div>
+  </div>
+</section>
+
+<audio id="bg-sound" preload="none">
+  <source src="nurzan-kermenbaev-kazak-kyzy_wlKZdvmx.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ═══════════════ INVITE ═══════════════ -->
+<section id="invite">
+  <img class="orn-bg left"  src="ornament-round.webp" alt="">
+  <img class="orn-bg right" src="ornament-round.webp" alt="">
+  <h1>Құрметті қонақтар!</h1>
+  <img class="orn-sm" src="ornament-small.webp" alt="">
+  <div class="invite-body">
+    <div style="line-height:1.2">Сіздерді аяулы қызымыз</div>
+    <div class="invite-kaz">Шолпан қыз ұзату</div>
+    <div style="line-height:1.2">тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!</div>
+  </div>
+</section>
+
+<!-- ═══════════════ DATE ═══════════════ -->
+<section id="date">
+  <div class="calendar">
+    <div class="cal-month">ШІЛДЕ</div>
+    <div class="cal-dayrow">
+      <div class="rule"></div>
+      <span class="dow">ЖҰМА</span>
+      <span class="day">24</span>
+      <span class="year">2026</span>
+      <div class="rule"></div>
+    </div>
+    <div class="cal-time">САҒАТ 17:00-ДА</div>
+    <div class="cal-table-wrap">
+      <table class="cal-table">
+        <tr><th>Дс</th><th>Сс</th><th>Ср</th><th>Бс</th><th>Жм</th><th>Сн</th><th>Жб</th></tr>
+        <tr><td></td><td></td><td>01</td><td>02</td><td>03</td><td>04</td><td>05</td></tr>
+        <tr><td>06</td><td>07</td><td>08</td><td>09</td><td>10</td><td>11</td><td>12</td></tr>
+        <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+        <tr><td>20</td><td>21</td><td>22</td><td>23</td><td class="today">24</td><td>25</td><td>26</td></tr>
+        <tr><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td></td><td></td></tr>
+      </table>
+      <svg class="cal-heart-svg" viewBox="0 0 266 168" xmlns="http://www.w3.org/2000/svg">
+        <path id="heart-path"
+          d="M 171,97 C 156,78 134,89 134,109 C 134,130 154,146 171,151 C 188,146 209,130 209,109 C 209,89 186,78 171,97 Z"
+          fill="none" stroke="#454242" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+      </svg>
+    </div>
+    <a class="cal-calendar-link"
+      href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%A8%D0%BE%D0%BB%D0%BF%D0%B0%D0%BD+%D2%9B%D1%8B%D0%B7+%D2%B1%D0%B7%D0%B0%D1%82%D1%83+%D1%82%D0%BE%D0%B9%D1%8B&dates=20260724T170000/20260724T230000&details=%D0%A1%D2%B1%D0%BB%D1%82%D0%B0%D0%BD+%D1%81%D0%B0%D1%80%D0%B0%D0%B9+%D0%BC%D0%B5%D0%B9%D1%80%D0%B0%D0%BC%D1%85%D0%B0%D0%BD%D0%B0%D1%81%D1%8B&location=%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B"
+      target="_blank">&#128197; Календарьге қосу</a>
+  </div>
+</section>
+
+<!-- ═══════════════ LOCATION ═══════════════ -->
+<section id="location">
+  <img class="orn-bg" src="ornament-round.webp" alt="">
+  <!-- Same ornament file as invite section, same 155px width -->
+  <img class="orn-horiz" src="ornament-floral.webp" alt="">
+  <h2>Мекенжайымыз:</h2>
+  <p class="address">
+    Алматы қаласы,<br>
+    «Сұлтан сарай» мейрамханасы<br>
+    <a href="https://www.instagram.com/sultan.saraiy.restaurant/" target="_blank">📸 @sultan.saraiy.restaurant</a>
+  </p>
+  <a class="btn" href="https://2gis.kz/almaty/firm/70000001023455019/76.817431%2C43.205487?m=76.843494%2C43.201829%2F12.08" target="_blank">🗺️ Картада қарау</a>
+</section>
+
+<!-- ═══════════════ SCHEDULE ═══════════════ -->
+<section id="schedule">
+  <img class="orn-bg" src="ornament-round.webp" alt="">
+  <h2>Той бағдарламасы:</h2>
+  <div class="schedule-grid">
+    <div class="schedule-item">
+      <img class="schedule-icon" src="geo.png" alt="">
+      <div class="schedule-time">17:00</div>
+      <div class="schedule-desc">қонақтарды қарсы алу, фуршет</div>
+    </div>
+    <div class="schedule-item">
+      <img class="schedule-icon" src="table.png" alt="">
+      <div class="schedule-time">17:30</div>
+      <div class="schedule-desc">қонақтарды отырғызу</div>
+    </div>
+    <div class="schedule-item">
+      <img class="schedule-icon" src="saukele.png" alt="">
+      <div class="schedule-time">18:00</div>
+      <div class="schedule-desc">той бастауы</div>
+    </div>
+    <div class="schedule-item">
+      <img class="schedule-icon" src="party.png" alt="">
+      <div class="schedule-time">20:00</div>
+      <div class="schedule-desc">шоу-бағдарламасы</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ RSVP ═══════════════ -->
+<section id="rsvp">
+  <h2>Тойға келесіз бе?</h2>
+  <form id="rsvp-form">
+    <input type="text" name="name" placeholder="ЕСІМІҢІЗ" autocomplete="name">
+    <div class="radio-group">
+      <label><input type="radio" name="rsvp" value="Ия, әрине келемін"> <span>Әрине, келемін</span></label>
+      <label><input type="radio" name="rsvp" value="Жолдасыммен келемін"> <span>Жұбайыммен келемін</span></label>
+      <label><input type="radio" name="rsvp" value="Өкінішке орай, келе алмаймын"> <span>Өкінішке орай, келе алмаймын</span></label>
+    </div>
+    <div class="qty-group">
+      <label class="qty-label">Қанша адам келесіздер?</label>
+      <div class="qty-row">
+        <button type="button" class="qty-btn minus">–</button>
+        <input class="qty-num" type="number" name="count" value="1" min="1">
+        <button type="button" class="qty-btn plus">+</button>
+      </div>
+    </div>
+    <div class="submit-wrap">
+      <button type="submit" class="btn-submit">ЖІБЕРУ</button>
+    </div>
+    <p class="rsvp-note">Балаларсыз келулеріңізді сұраймыз</p>
+  </form>
+  <div id="rsvp-success" style="display:none">Рахмет! Жауабыңыз жіберілді. 🌸</div>
+</section>
+
+<!-- ═══════════════ PARENTS ═══════════════ -->
+<section id="parents">
+  <!-- Same ornament-floral.webp for top and bottom (flipped), same 155px width -->
+  <img class="orn-top" src="ornament-floral.webp" alt="">
+  <h2>Той иелері:</h2>
+  <p class="parent-name">Анасы - Вандана</p>
+  <p class="parent-joy">Сіздермен қуанышымызды бөлісуге асықпыз!</p>
+  <img class="orn-bottom" src="ornament-floral.webp" alt="">
+</section>
+
+<!-- ═══════════════ COUNTDOWN ═══════════════ -->
+<section id="countdown">
+  <img class="bg" src="sholpan-footer-1.png" alt="">
+  <div class="inner">
+    <p class="cd-label">тойға дейін:</p>
+    <div id="cd-timer">
+      <div class="cd-unit"><div class="cd-num" id="cd-days">00</div><div class="cd-unit-label">күн</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><div class="cd-num" id="cd-hours">00</div><div class="cd-unit-label">сағат</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><div class="cd-num" id="cd-minutes">00</div><div class="cd-unit-label">минут</div></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><div class="cd-num" id="cd-seconds">00</div><div class="cd-unit-label">секунд</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ MUSIC BUTTON ═══════════════ -->
+<div id="music-btn">
+  <svg class="ring" width="80" height="80" viewBox="0 0 80 80">
+    <defs>
+      <path id="mcp" d="M40,40 m-29,0 a29,29 0 1,1 58,0 a29,29 0 1,1-58,0"/>
+    </defs>
+    <text font-size="7" fill="#9f8e75" font-family="Georgia,serif" letter-spacing="2">
+      <textPath href="#mcp">♪ МУЗЫКА ♪ MUSIC ♪ SOUNDS ♪ .</textPath>
+    </text>
+  </svg>
+  <div id="music-play" class="center">♪</div>
+  <div id="music-stop" class="center" style="display:none">⏸</div>
+</div>
+
+<script>
+  /* ── MUSIC PLAYER ─────────────────────── */
+  var audio   = document.getElementById('bg-sound');
+  var playBtn = document.getElementById('music-play');
+  var stopBtn = document.getElementById('music-stop');
+  audio.volume = 0.4;
+
+  function showPlay() { playBtn.style.display = ''; stopBtn.style.display = 'none'; }
+  function showStop() { playBtn.style.display = 'none'; stopBtn.style.display = ''; }
+
+  playBtn.addEventListener('click', function() { audio.play(); showStop(); });
+  stopBtn.addEventListener('click', function() { audio.pause(); showPlay(); });
+  audio.addEventListener('ended', showPlay);
+
+  /* ── QUANTITY BUTTONS ─────────────────── */
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.qty-btn');
+    if (!btn) return;
+    var input = btn.parentNode.querySelector('.qty-num');
+    if (!input) return;
+    var val = parseInt(input.value, 10) || 1;
+    input.value = btn.classList.contains('plus') ? val + 1 : Math.max(1, val - 1);
+  });
+
+  /* ── RSVP FORM ────────────────────────── */
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbx0eKPL_ourSsu3WXkBuU3TkkDu4JbKLFzGQYsdmV6pXkMiQ3JZOQyIJa3zAWHt6MHO/exec';
+
+  document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    var name  = form.querySelector('[name="name"]').value.trim();
+    var rsvpEl = form.querySelector('[name="rsvp"]:checked');
+    var rsvp  = rsvpEl ? rsvpEl.value : '';
+    var count = form.querySelector('[name="count"]').value.trim() || '1';
+
+    if (!name) { alert('Есіміңізді жазыңыз'); return; }
+    if (!rsvp) { alert('Жауап таңдаңыз');      return; }
+
+    var btn = form.querySelector('.btn-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="rsvp-spinner"></span>';
+
+    fetch(SHEET_URL + '?name=' + encodeURIComponent(name) +
+                      '&radio=' + encodeURIComponent(rsvp) +
+                      '&count=' + encodeURIComponent(count))
+      .then(function() {
+        form.style.display = 'none';
+        document.getElementById('rsvp-success').style.display = 'block';
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.textContent = 'ЖІБЕРУ';
+        alert('Қате болды, қайталап көріңіз');
+      });
+  });
+
+  /* ── COUNTDOWN ────────────────────────── */
+  (function() {
+    var target = new Date('2026-07-24T17:00:00');
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function tick() {
+      var diff = Math.max(0, target - new Date());
+      document.getElementById('cd-days').textContent    = pad(Math.floor(diff / 86400000));
+      document.getElementById('cd-hours').textContent   = pad(Math.floor((diff % 86400000) / 3600000));
+      document.getElementById('cd-minutes').textContent = pad(Math.floor((diff % 3600000) / 60000));
+      document.getElementById('cd-seconds').textContent = pad(Math.floor((diff % 60000) / 1000));
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+
+</body>
+</html>
